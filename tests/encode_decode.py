@@ -1,10 +1,17 @@
 import fire
 
+from core.tokenizer import BasicTokenizer, RegexTokenizer
 from core.tokenizer.basic import BasicTokenizer
 
+tokenizer_mapping = {
+    "basic": BasicTokenizer,
+    "regex": RegexTokenizer,
+}
 
-def main(vocab_file: str, merges_file: str):
-    tokenizer = BasicTokenizer(vocab_file, merges_file)
+
+def main(tokenizer_type: str, vocab_file: str, merges_file: str):
+    tokenizer = tokenizer_mapping[tokenizer_type]()
+    tokenizer.load(vocab_file, merges_file)
     while True:
         try:
             text = input("Enter text to tokenize: ")

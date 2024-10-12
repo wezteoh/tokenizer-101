@@ -1,18 +1,25 @@
 import fire
 
-from core.tokenizer.basic import BasicTokenizer
+from core.tokenizer import BasicTokenizer, RegexTokenizer
+
+tokenizer_mapping = {
+    "basic": BasicTokenizer,
+    "regex": RegexTokenizer,
+}
 
 
-def main(train_file: str, vocab_file: str, merges_file: str, vocab_size: int = 1000):
+def main(
+    train_file: str, tokenizer_type: str, vocab_file: str, merges_file: str, vocab_size: int = 512
+):
     with open(train_file, "r") as f:
         train_text = f.read()
-    tokenizer = BasicTokenizer.train(
+    tokenizer = tokenizer_mapping[tokenizer_type]()
+    tokenizer.train(
         text=train_text,
         vocab_size=vocab_size,
-        vocab_file=vocab_file,
-        merges_file=merges_file,
         verbose=True,
     )
+    tokenizer.save(vocab_file, merges_file)
 
 
 if __name__ == "__main__":

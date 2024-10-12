@@ -1,12 +1,20 @@
-def get_stats(ids: list[int]) -> dict[tuple[int, int], int]:
+from typing import Union
+
+
+def get_stats(
+    ids: list[int], counts: Union[dict[tuple, int], None] = None
+) -> dict[tuple[int, int], int]:
     """
     Get the countings of every unique byte pairs in the list of bytes
     """
-    stats = {}
+    # cannot set default argument as empty dict,
+    # because mutable default argument will be shared across all calls
+    if counts is None:
+        counts = {}
     for i in range(len(ids) - 1):
         pair = (ids[i], ids[i + 1])
-        stats[pair] = stats.get(pair, 0) + 1
-    return stats
+        counts[pair] = counts.get(pair, 0) + 1
+    return counts
 
 
 def merge(ids: list[int], pair: list[int], id) -> list[int]:

@@ -23,7 +23,7 @@ def bpe(token: str, mergeable_ranks: dict, max_rank: int) -> list:
         min_rank = None
         for idx, (part1, part2) in enumerate(zip(parts[:-1], parts[1:])):
             rank = mergeable_ranks.get(part1 + part2)
-            if rank is not None and (rank < min_rank or min_rank is None):
+            if rank is not None and (min_rank is None or rank < min_rank):
                 min_rank = rank
                 min_idx = idx
         if min_rank is None or min_rank >= max_rank:
@@ -58,6 +58,9 @@ class GPT4OTokenizer(RegexTokenizer):
         # 2. mapping of token idxs to raw bytes in vocab for decoding
         self.byteidx2tokenidx = {x: enc._mergeable_ranks[bytes([x])] for x in range(256)}
         self.vocab = {v: k for k, v in enc._mergeable_ranks.items() if v < 256}
+        for (p0, p1), idx in self.merges.items():
+            self.vocab[idx] = self.vocab[p0] + self.vocab[p1]
+        self.register_special_tokens(GPT4O_SPECIAL_TOKENS)
 
     def _encode_chunk(self, text: str) -> list[int]:
         ids = list(text.encode("utf-8"))
@@ -70,6 +73,9 @@ class GPT4OTokenizer(RegexTokenizer):
             id = self.merges[pair]
             ids = merge(ids, pair, id)
         return ids
+
+    def register_special_tokens(self, special_tokens):
+        return super().register_special_tokens(special_tokens)
 
     def train(
         self,

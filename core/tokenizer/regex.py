@@ -13,7 +13,7 @@ class RegexTokenizer(Tokenizer):
         super().__init__()
         if pattern is None:
             pattern = GPT4_SPLIT_PATTERN
-        self.pattern = re.compile(GPT4_SPLIT_PATTERN)
+        self.pattern = re.compile(pattern)
         self.special_tokens = {}
         self.inversed_special_tokens = {}
 

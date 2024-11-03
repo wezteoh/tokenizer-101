@@ -47,8 +47,8 @@ def recover_merges(mergeable_ranks: dict) -> dict:
 
 
 class GPT4OTokenizer(RegexTokenizer):
-    def __init__(self, pattern: str = None):
-        super().__init__(pattern)
+    def __init__(self):
+        super().__init__(GPT4O_SPLIT_PATTERN)
         enc = tiktoken.get_encoding("o200k_base")
         self.merges = recover_merges(enc._mergeable_ranks)
 

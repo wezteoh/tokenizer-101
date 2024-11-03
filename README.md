@@ -33,8 +33,7 @@ if one token can capture longer text, we are saving model's capacity from having
 
 You can run similar comparison by the following command:
 ```
-python scripts/compare_tokenizers.py --input_text_file data/sam
-ple.txt
+python scripts/compare_tokenizers.py --input_text_file data/sample.txt
 ```
 
 ![Tokenization Efficiency Comparison](assets/comparison.png)

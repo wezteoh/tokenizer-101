@@ -2,12 +2,19 @@
 This repo is developed along my deep-dive into the details of tokenization for LLM development, following this amazing tutorial [[Andrej Karpathy's Tutorial](https://www.youtube.com/watch?v=zduSFxRajkE)]. It heavily references this example repo [[MinBPE](https://github.com/karpathy/minbpe)].
 
 ## Constructing Tokenizer
-I implemented a barebone tokenizer class structure [[Tokenizer](https://github.com/wezteoh/tokenizer-101/tree/main/core/tokenizer)] that is commonly used to translate text representation between a modality readable by LLM (token embeddings) and a modality readable by human (raw text). There are 3 main methods in the class:
+I implemented a barebone tokenizer class structure [[Tokenizer](https://github.com/wezteoh/tokenizer-101/tree/main/core/tokenizer)] that is commonly used to translate text representation between a modality readable by LLM (tokens) and a modality readable by human (raw text). There are 3 main methods in the class:
 - encode
 - decode
 - train
 
-## How to use the tokenizer class
+## How to try
+- Install requirements and set up environment. Python 3.12 is supported.
+```
+pip install poetry
+poetry install
+source set_env.sh
+```
+
 - train a tokenizer
 ```
 python scripts/train.py \
